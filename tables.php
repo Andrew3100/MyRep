@@ -19,15 +19,18 @@ $condition2 = "status = 1";
 
 /*Получаем имена заголовков таблицы (пользовательской, не БД)*/
 $table_structure = get_records_sql($table_n,$condition);
-while ($table_headers = mysqli_fetch_assoc($table_structure)) {
-    /*echo '<pre>';
-    echo $table_headers['descriptor_n'];
-    echo '</pre>';*/
-}
 
+/*Выводим эти заголовки в таблицу BootStrap*/
+echo '<table class="table table-dark"><thead><tr>';
+while ($table_headers = mysqli_fetch_assoc($table_structure)) {
+    echo '<th>'.$table_headers['descriptor_n'].'</th>';
+}
+echo '</tr></thead></table>';
+exit();
 
 /*Получаем имена полей в таблице, которую выводим (те, которые в БД, а не заголовки как было выше)*/
 $table_columns = get_table_columns($table_name);
+
 
 /*Удаляем идентификатор записи из нашей таблицы*/
 /*unset($table_columns[0]);*/
@@ -35,11 +38,21 @@ $table_columns = get_table_columns($table_name);
 $field_incriment = 0;
 echo '<pre>';
 $table_data = get_records_sql($table_name,$condition2);
+
+
+for ($i=0;$i<=count($table_headers);$i++) {
+    /*echo $table_headers[$i];*/
+    var_dump($table_headers['descriptor_n']);
+}
+
+exit();
+
+
+
 while ($table_data1 = mysqli_fetch_assoc($table_data))
 
 {
     var_dump($table_data1);
-    $field_incriment++;
 }
 
 echo '</pre>';
