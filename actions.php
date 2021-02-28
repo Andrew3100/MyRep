@@ -10,6 +10,7 @@ $adding = $_GET['add'];
 $table_name = get_table_name();
 
 if (isset($update) OR isset($adding)) {
+
     /*Получили имя гета*/
     $url = ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 

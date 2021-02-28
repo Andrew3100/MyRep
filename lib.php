@@ -255,6 +255,72 @@ function get_record_sql(&$table_name,&$condition) {
     return $get_record;
 }
 
+function get_form ($table_name,$get,$id){
+    include 'bootstrap/template.php';
+    include 'database.php';
+    /*Получение формы осуществляется из базы данных
+    в базе данных хранится имя гет-параметра таблицы и тип формы (дата, листбокс, текст)
+    */
+
+    /*Получаем поля таблицы - для создания цикла вывода форм*/
+    $table_columns_array = get_table_columns($table_name);
+
+    $query = $mysqli->query("SELECT * FROM bsu_form_data WHERE get_name = '$get'");
+    $name=0;
+    $tab ='ref_country';
+    $condition = '';
+    $condition2 = "id = $id";
+    $country_list = get_records_sql($tab,$condition);
+    $k=0;
+    while ($query_res = mysqli_fetch_assoc($query)) {
+
+        /*Если не листбокс*/
+        if ($query_res['type_name']!='list') {
+            /*Выводим форму*/
+
+            echo '<form method="POST" action="actions.php"><div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">'.$query_res['descriptor_n'].'</label>
+                        <input value="" name="name'.$name.'" type="'.$query_res['type_name'].'" class="form-control" id="exampleFormControlInput1">
+                      </div>';
+
+        }
+
+        else {
+            /*Если листбокс - тянем БД*/
+            echo '<div class="mb-3">';
+
+
+            echo '<label for="exampleFormControlInput1" class="form-label">'.$query_res['descriptor_n'].'</label>
+                  <select  name="name'.$name.'" class="form-select" aria-label="Default select example">
+                    <option value="" selected>Выберите страну</option>';
+            while ($query_country = mysqli_fetch_assoc($country_list)) {
+                echo '<option value="1">'.$query_country['name'].'</option>';
+
+            }
+            echo '</select>';
+
+            echo '</div>';
+
+
+        }
+
+        $name++;
+        $k++;
+    }
+    if ($_GET['red']) {
+        echo '<button class="btn btn-success">Сохранить</button>';
+        echo '<button class="btn btn-danger">Отмена</button>';
+    }
+    else {
+        echo '<button class="btn btn-success">Обновить</button>';
+        echo '<button class="btn btn-danger">Отмена</button>';
+    }
+    echo '</form>';
+
+
+    return $k;
+}
+
 
 function get_form_upd (&$table_name,$get,$id){
     include 'bootstrap/template.php';
@@ -368,6 +434,8 @@ function delete_upd_status(&$delete,&$table_name,&$id) {
     include 'database.php';
     $delete = $mysqli->query("UPDATE $table_name SET status = 0 WHERE id = $id");
 }
+
+
 
 
 

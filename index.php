@@ -28,7 +28,7 @@ $import = $_GET['import'];
 <body>
 
 <!--Шапка системы-->
-<div class="container-fluid">
+<div class="container-fluid" style="padding: 0">
     <div class="row">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
@@ -109,11 +109,8 @@ $import = $_GET['import'];
                 </div>
                 </div>';
             }
-
-
-
-
         }
+
         /*Если не вызваны параметры для таблиц, выводим страницы пунктов левого меню*/
         if ($data AND !get_param()) {
             include 'menu/data.php';
@@ -126,34 +123,15 @@ $import = $_GET['import'];
         if ($import AND !get_param()) {
             include 'menu/import.php';
         }
-        if (($_GET['red'] OR $_GET['del'] OR $_GET['add']) AND get_param()) {
-            /*Создаём блок чтобы вместить таблицу и форму ввода*/
-            echo '<div class="container-fluid">
-                    <div class="row">';
-            echo '    <div class="col-md-8 col-lg-9">';
-                include 'tables.php';
-            echo '    </div>';
-            echo '    <div class="col-md-4 col-lg-3">';
-                include 'actions.php';
-            echo '    </div>';
-
-            echo '</div>
-              </div>';
 
 
-        }
 
                 ?>
         </div>
     </div>
-    <div class="row">
-        <div class="col-2 text-center">
 
-
-
-
-    </div>
 </div>
+
 
 <!-- Optional JavaScript -->
 <!-- Popper.js first, then Bootstrap JS -->

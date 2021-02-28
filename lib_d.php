@@ -249,7 +249,7 @@ function get_record_sql(&$table_name,&$condition) {
 }
 
 
-function get_form (&$table_name,$get,$id){
+function get_form ($table_name,$get,$id){
     include 'bootstrap/template.php';
     include 'database.php';
     /*Получение формы осуществляется из базы данных
