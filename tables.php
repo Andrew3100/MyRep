@@ -1,5 +1,5 @@
 <?
-exit('PHP работает');
+
 /*Библиотека вызвана в связанном файле - тут вызывать нельзя, могут возникнуть ошибки*/
 require_once 'bootstrap/template.php';
 require_once "lib.php";
