@@ -100,15 +100,9 @@ $import = $_GET['import'];
         <div class="col-10">
         <?php
         /*Если активирован гет для одной из 13 таблиц*/
-        if (get_param() AND (!$_GET['red'] AND !$_GET['del'])) {
-            if (!$_GET['add']) {
+        if (get_param()) {
+                /*Выводим таблицу выбранного вида*/
                 include 'tables.php';
-                echo '<div class="row">
-                <div class="col text-left">
-                    <a type="button" href="index.php?add=1&och=1" class="but-link btn btn-warning" style="color: black">Добавить запись</a>
-                </div>
-                </div>';
-            }
         }
 
         /*Если не вызваны параметры для таблиц, выводим страницы пунктов левого меню*/
@@ -123,9 +117,6 @@ $import = $_GET['import'];
         if ($import AND !get_param()) {
             include 'menu/import.php';
         }
-
-
-
                 ?>
         </div>
     </div>

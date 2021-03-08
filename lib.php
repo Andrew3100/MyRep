@@ -255,7 +255,7 @@ function get_record_sql(&$table_name,&$condition) {
     return $get_record;
 }
 
-function get_form ($table_name,$get,$id){
+function get_form ($table_name,$get){
     include 'bootstrap/template.php';
     include 'database.php';
     /*Получение формы осуществляется из базы данных
@@ -269,7 +269,7 @@ function get_form ($table_name,$get,$id){
     $name=0;
     $tab ='ref_country';
     $condition = '';
-    $condition2 = "id = $id";
+
     $country_list = get_records_sql($tab,$condition);
     $k=0;
     while ($query_res = mysqli_fetch_assoc($query)) {
@@ -278,7 +278,7 @@ function get_form ($table_name,$get,$id){
         if ($query_res['type_name']!='list') {
             /*Выводим форму*/
 
-            echo '<form method="POST" action="actions.php"><div class="mb-3">
+            echo '<form method="POST" action="actions.php?add=1"><div class="mb-3">
                         <label for="exampleFormControlInput1" class="form-label">'.$query_res['descriptor_n'].'</label>
                         <input value="" name="name'.$name.'" type="'.$query_res['type_name'].'" class="form-control" id="exampleFormControlInput1">
                       </div>';
@@ -307,14 +307,12 @@ function get_form ($table_name,$get,$id){
         $name++;
         $k++;
     }
-    if ($_GET['red']) {
-        echo '<button class="btn btn-success">Сохранить</button>';
+    if ($_GET['add']) {
+
+        echo '<button type="submit" class="btn btn-success">Сохранить</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
         echo '<button class="btn btn-danger">Отмена</button>';
     }
-    else {
-        echo '<button class="btn btn-success">Обновить</button>';
-        echo '<button class="btn btn-danger">Отмена</button>';
-    }
+
     echo '</form>';
 
 
@@ -353,7 +351,6 @@ function get_form_upd (&$table_name,$get,$id){
         unset($data_list);
     }
 
-
     $k=1;
 
         while ($query_res = mysqli_fetch_assoc($query)) {
@@ -366,16 +363,11 @@ function get_form_upd (&$table_name,$get,$id){
                 {
                     echo '<form method="POST" action="actions.php?upd=1"><div class="mb-3">';
                 }
-                if ($_GET['del']) {
-                    echo '<form method="POST" action="actions.php?del=1"><div class="mb-3">';
-                }
-                if (!($_GET['red'] OR $_GET['del']) AND $_GET['add']) {
-                    echo '<form method="POST" action="actions.php?add=1"><div class="mb-3">';
-                }
 
-                echo '<label for="exampleFormControlInput1" class="form-label">'.$query_res['descriptor_n'].'</label>
+
+                echo '<label for="exampleFormControlInput'.$k.'" class="form-label">'.$query_res['descriptor_n'].'</label>
                         <input value="'.$data_list[$table_columns_array[$k]].'" 
-                        name="name'.$name.'" type="'.$query_res['type_name'].'" class="form-control" id="exampleFormControlInput1">
+                        name="name'.$name.'" type="'.$query_res['type_name'].'" class="form-control" id="exampleFormControlInput'.$k.'">
                       </div>';
 
             }
@@ -385,11 +377,11 @@ function get_form_upd (&$table_name,$get,$id){
                 echo '<div class="mb-3">';
 
 
-                echo '<label for="exampleFormControlInput1" class="form-label">'.$query_res['descriptor_n'].'</label>
+                echo '<label class="form-label">'.$query_res['descriptor_n'].'</label>
                   <select  name="name'.$name.'" class="form-select" aria-label="Default select example">
                     <option>'.$data_list[$table_columns_array[$k]].'</option>';
                 while ($query_country = mysqli_fetch_assoc($country_list)) {
-                    echo '<option value="1">'.$query_country['name'].'</option>';
+                    echo '<option>'.$query_country['name'].'</option>';
                 }
                 echo '</select>';
                 echo '</div>';
@@ -400,40 +392,28 @@ function get_form_upd (&$table_name,$get,$id){
             $name++;
         $k++;
         }
-    if (!$_GET['red']) {
-        echo '<div class="container-fluid">
-                        <div class="row">
-                                <div class="col-6 text-center">
-                                    <button type="submit" class="btn btn-success">Сохранить</button>
-                                </div>
-                                <div class="col-6 text-center">
-                                    <button class="btn btn-danger"><a class="but-link" href="index.php?'.$get.'=1">Отмена</a></button>
-                                </div>
-                        </div>
-                   </div>';
-    }
-    else {
 
-        echo '<div class="container-fluid">
-                        <div class="row">
-                                <div class="col-6 text-center">
-                                    <button type="submit" class="btn btn-success">Обновить</button>
-                                </div>
-                                <div class="col-6 text-center">
-                                    <button class="btn btn-danger"><a class="but-link" href="index.php?'.$get.'=1">Отмена</a></button>
-                                </div>
-                        </div>
-                   </div>';
 
-    }
+        echo '<button type="submit" class="btn btn-success">Редактировать</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+        echo '<button class="btn btn-danger">Отмена</button>';
+
+
         echo '</form>';
 
     return $k;
 }
-function delete_upd_status(&$delete,&$table_name,&$id) {
+
+/*Имитация удаления - обновляем статус записи, после чего стандартный пользователь не увидит эту запись. Можно восстановить в WorkBench*/
+function update_status_record(&$table_name,&$id) {
     include 'database.php';
     $delete = $mysqli->query("UPDATE $table_name SET status = 0 WHERE id = $id");
 }
+
+
+
+
+
+
 
 
 
