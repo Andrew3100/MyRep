@@ -3,6 +3,7 @@ require_once 'lib.php';
 /*База*/
 require_once 'database.php';
 
+
 /*отладка*/
 debug();
 

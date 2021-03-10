@@ -272,16 +272,15 @@ function get_form ($table_name,$get){
 
     $country_list = get_records_sql($tab,$condition);
     $k=0;
+    echo '<form method="POST" action="actions.php?add=1&'.$get.'=1">';
     while ($query_res = mysqli_fetch_assoc($query)) {
 
         /*Если не листбокс*/
         if ($query_res['type_name']!='list') {
             /*Выводим форму*/
-
-            echo '<form method="POST" action="actions.php?add=1"><div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">'.$query_res['descriptor_n'].'</label>
-                        <input value="" name="name'.$name.'" type="'.$query_res['type_name'].'" class="form-control" id="exampleFormControlInput1">
-                      </div>';
+                       echo '<label for="exampleFormControlInput'.$k.'" class="form-label">'.$query_res['descriptor_n'].'</label>
+                        <input value="" name="name'.$name.'" type="'.$query_res['type_name'].'" class="form-control" id="exampleFormControlInput'.$k.'">
+                      ';
 
         }
 
@@ -291,10 +290,10 @@ function get_form ($table_name,$get){
 
 
             echo '<label for="exampleFormControlInput1" class="form-label">'.$query_res['descriptor_n'].'</label>
-                  <select  name="name'.$name.'" class="form-select" aria-label="Default select example">
-                    <option value="" selected>Выберите страну</option>';
+                  <select name="name'.$name.'" class="form-select" aria-label="Default select example" id="exampleFormControlInput1">
+                    <option name="name'.$name.'">Выберите страну</option>';
             while ($query_country = mysqli_fetch_assoc($country_list)) {
-                echo '<option value="1">'.$query_country['name'].'</option>';
+                echo '<option name="name'.$name.'">'.$query_country['name'].'</option>';
 
             }
             echo '</select>';
@@ -307,6 +306,8 @@ function get_form ($table_name,$get){
         $name++;
         $k++;
     }
+
+    echo "<input name='hidden' value='$k' type='hidden'>";
     if ($_GET['add']) {
 
         echo '<button type="submit" class="btn btn-success">Сохранить</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
