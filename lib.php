@@ -9,6 +9,14 @@ function isauth() {
     }
 }
 
+/*Функция выбора последнего идентификатора, используется при вставке новой записи*/
+function get_last_record_id($table_name) {
+    include 'database.php';
+    $sql = $mysqli->query("SELECT MAX(id) FROM $table_name");
+    var_dump($sql);
+    return $sql;
+}
+
 /*Функция выборки,в переменных надо передать имя таблицы и условие (строка, без слова WHERE)*/
 function get_records_sql(&$table,&$condition){
     include 'database.php';
