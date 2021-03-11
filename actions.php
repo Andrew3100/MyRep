@@ -41,7 +41,7 @@ if ($adding) {
     unset($columns[0]);
     unset($columns[count($columns)]);
     var_dump($columns);
-    $g = 1;
+    $g = 0;
     $i=1;
     /*Обновляем все поля в текущем идентификаторе*/
     /*Обновляем все поля в текущем идентификаторе*/
@@ -55,13 +55,13 @@ if ($adding) {
     if (!$insert) {
         echo 'Потрачено';
     }
-    $g = 2;
+    $g = 1;
     echo '<pre>';
     var_dump($post_array);
     echo '</pre>';
     for ($i=2;$i<=$_POST['hidden'];$i++) {
         echo '<pre>';
-        $insert = $mysqli->query("UPDATE $table_name SET (`$columns[$i]`) = ('$post_array[$g]') WHERE id = $max_id");
+        $insert = $mysqli->query("UPDATE $table_name SET `$columns[$i]` = ('$post_array[$g]') WHERE id = $max_id");
         print_r("UPDATE $table_name SET `$columns[$i]` = ('$post_array[$g]') WHERE id = $max_id");
         echo '</pre>';
         $g++;
