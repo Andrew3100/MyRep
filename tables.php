@@ -63,9 +63,9 @@ if (!$_GET['add']AND!$_GET['red']AND!$_GET['del']) {
     $table_columns = get_table_columns($table_name);
 
     /*Удаляем идентификатор записи из нашей таблицы*/
-    unset($table_columns[0]);
-    unset($table_columns[count($table_columns) - 1]);
 
+    unset($table_columns[0]);
+    unset($table_columns[count($table_columns)]);
     /*Получаем данные из таблицы*/
     $table_data = get_records_sql($table_name, $condition2);
     echo '<tbody><tr>';
@@ -76,6 +76,7 @@ if (!$_GET['add']AND!$_GET['red']AND!$_GET['del']) {
         foreach ($table_columns as $table_columns_arr) {
             /*Вывод содержимого в текущем поле*/
             echo '<td>' . $table_data1[$table_columns_arr] . '</td>';
+
         }
         /*Вывод иконок*/
         $red_id = $table_data1['id'];
@@ -87,7 +88,7 @@ if (!$_GET['add']AND!$_GET['red']AND!$_GET['del']) {
                     <!--Иконка--><a class='actions_link' href='index.php?red=$red_id&$get=1'><i class='bi bi-pencil-fill'></i></a>
                     </div>
                     <div class='col'>
-                    <!--Иконка--><a class='actions_link1'  href='actions.php?del=$del_id&$get=1'><i class='bi bi-trash-fill'></i></a>
+                    <!--Иконка--><a class='actions_link1' onclick='return  confirm(`Подтвердите удаление записи`)' href='actions.php?del=$del_id&$get=1'><i class='bi bi-trash-fill'></i></a>
                     </div>
                 </div>
            </div>
@@ -135,9 +136,9 @@ if ($_GET['add']) {
     $table_columns = get_table_columns($table_name);
 
     /*Удаляем идентификатор записи из нашей таблицы*/
-    unset($table_columns[0]);
-    unset($table_columns[count($table_columns) - 1]);
 
+    unset($table_columns[0]);
+    unset($table_columns[count($table_columns)]);
     /*Получаем данные из таблицы*/
     $table_data = get_records_sql($table_name, $condition2);
     echo '<tbody><tr>';
@@ -198,9 +199,9 @@ if ($_GET['red']) {
     $table_columns = get_table_columns($table_name);
 
     /*Удаляем идентификатор записи из нашей таблицы*/
-    unset($table_columns[0]);
-    unset($table_columns[count($table_columns) - 1]);
 
+    unset($table_columns[0]);
+    unset($table_columns[count($table_columns)]);
     /*Получаем данные из таблицы*/
     $table_data = get_records_sql($table_name, $condition2);
     echo '<tbody><tr>';
@@ -211,6 +212,7 @@ if ($_GET['red']) {
         foreach ($table_columns as $table_columns_arr) {
             /*Вывод содержимого в текущем поле*/
             echo '<td>' . $table_data1[$table_columns_arr] . '</td>';
+
         }
         /*Вывод иконок*/
         $red_id = $table_data1['id'];
@@ -222,7 +224,7 @@ if ($_GET['red']) {
                     <!--Иконка--><a class='actions_link' href='index.php?red=$red_id&$get=1'><i class='bi bi-pencil-fill'></i></a>
                     </div>
                     <div class='col'>
-                    <!--Иконка--><a class='actions_link1' href='actions.php?del=$del_id&$get=1'><i class='bi bi-trash-fill'></i></a>
+                    <!--Иконка--><a class='actions_link1' onclick='return  confirm(`Подтвердите удаление записи`)' href='actions.php?del=$del_id&$get=1'><i class='bi bi-trash-fill'></i></a>
                     </div>
                 </div>
            </div>

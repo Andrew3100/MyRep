@@ -295,14 +295,17 @@ function get_form ($table_name,$get){
     $country_list = get_records_sql($tab,$condition);
     $k=0;
     echo '<form method="POST" action="actions.php?add=1&'.$get.'=1">';
+
     while ($query_res = mysqli_fetch_assoc($query)) {
 
         /*Если не листбокс*/
         if ($query_res['type_name']!='list') {
             /*Выводим форму*/
+            echo '<div class="mb-3">';
                        echo '<label for="exampleFormControlInput'.$k.'" class="form-label">'.$query_res['descriptor_n'].'</label>
                         <input value="" name="name'.$name.'" type="'.$query_res['type_name'].'" class="form-control" id="exampleFormControlInput'.$k.'">
                       ';
+            echo '</div>';
 
         }
 
@@ -384,7 +387,8 @@ function get_form_upd (&$table_name,$get,$id){
                 /*Выводим форму*/
                 if ($_GET['red'])
                 {
-                    echo '<form method="POST" action="actions.php?upd=1"><div class="mb-3">';
+                    echo "<form method='POST' action='actions.php?upd=1&$get=1'>";
+                    echo '<div class="mb-3">';
                 }
 
 

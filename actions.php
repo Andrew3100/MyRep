@@ -9,17 +9,20 @@ require_once 'js.js';
 require_once "lib.php";
 $table_name = get_table_name();
 
-$update = $_GET['red'];
+$update = $_GET['upd'];
 $delete = $_GET['del'];
 $adding = $_GET['add'];
 
 if ($delete) {
-update_status_record($table_name,$delete);
-echo "<script>window.location.replace('index.php?$get=1')</script>";
-exit();
+
+    update_status_record($table_name,$delete);
+    echo "<script>window.location.replace('index.php?$get=1')</script>";
+    exit();
+
 }
 
-
+/*Функция универсальной вставки данных*/
+/*Вначале идёт вставка о одному полю, хатем пустые поля в этой записи обновляем на значения из постов*/
 if ($adding) {
     $post_array = array();
     for ($i=0; $i<$_POST['hidden'];$i++) {
@@ -43,18 +46,12 @@ if ($adding) {
     var_dump($columns);
     $g = 0;
     $i=1;
-    /*Обновляем все поля в текущем идентификаторе*/
-    /*Обновляем все поля в текущем идентификаторе*/
-    /*Обновляем все поля в текущем идентификаторе*/
-    /*Обновляем все поля в текущем идентификаторе*/
+
     /*Обновляем все поля в текущем идентификаторе*/
     echo '<pre>';
     $insert = $mysqli->query("INSERT INTO $table_name (`$columns[$i]`) VALUES ('$post_array[$g]')");
     print_r("INSERT INTO $table_name (`$columns[$i]`) VALUES ('$post_array[$g]')");
     echo '</pre>';
-    if (!$insert) {
-        echo 'Потрачено';
-    }
     $g = 1;
     echo '<pre>';
     var_dump($post_array);
@@ -66,5 +63,11 @@ if ($adding) {
         echo '</pre>';
         $g++;
     }
+    echo "<script>window.location.replace('index.php?add=1&$get=1')</script>";
 
+
+}
+
+if ($update) {
+    $upd = $mysqli->query("UPDATE $table_name SET ");
 }
