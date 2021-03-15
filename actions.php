@@ -23,15 +23,21 @@ if ($delete) {
 
 /*Функция универсальной вставки данных*/
 /*Вначале идёт вставка о одному полю, хатем пустые поля в этой записи обновляем на значения из постов*/
+$post_array = array();
+for ($i=0; $i<$_POST['hidden'];$i++) {
+    echo '<pre>';
+    $post_array[] = ($_POST['name'.$i]);
+    echo '</pre>';
+}
+/*Получаем имена полей таблицы базы данных*/
+$columns = get_table_columns($table_name);
+/*Из массива полей таблицы чистим идентификатор*/
+unset($columns[0]);
+/*Из массива полей таблицы чистим статус записи*/
+unset($columns[count($columns)]);
 if ($adding) {
-    $post_array = array();
-    for ($i=0; $i<$_POST['hidden'];$i++) {
-        echo '<pre>';
-        $post_array[] = ($_POST['name'.$i]);
-        echo '</pre>';
-    }
 
-    $table_name = get_table_name();
+
     echo '<pre>';
     $max_id = (mysqli_fetch_assoc(get_last_record_id($table_name)));
     $max_id = $max_id["MAX(id)"];
@@ -40,10 +46,7 @@ if ($adding) {
     $condition = " id = $max_id";
     $records = mysqli_fetch_assoc(get_records_sql($table_name,$condition));
 
-    $columns = get_table_columns($table_name);
-    unset($columns[0]);
-    unset($columns[count($columns)]);
-    var_dump($columns);
+
     $g = 0;
     $i=1;
 
@@ -69,5 +72,20 @@ if ($adding) {
 }
 
 if ($update) {
-    $upd = $mysqli->query("UPDATE $table_name SET ");
+    echo '<pre>';
+    var_dump($post_array);
+    echo '</pre>';
+    $g=0;
+    for ($i=1;$i<(count($post_array));$i++) {
+        $sql = "UPDATE $table_name SET $columns[$i] = $post_array[$g]";
+        if ($update) {
+            echo 'Запрос выполнен успешно';
+        }
+        $upd = $mysqli->query($sql);
+        echo '<pre>';
+        print_r($sql);
+        echo '</pre>';
+        $g++;
+    }
+
 }

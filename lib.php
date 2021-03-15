@@ -369,6 +369,7 @@ function get_form_upd (&$table_name,$get,$id){
     $country_list = get_records_sql($tab,$condition);
     $data_list = get_records_sql($table_name,$condition2);
     $data_list = mysqli_fetch_assoc($data_list);
+    $name = 0;
 
 
     /*Если не создан гет параметр для редактирования - удаляем массив данных из записи*/
@@ -381,15 +382,16 @@ function get_form_upd (&$table_name,$get,$id){
 
         while ($query_res = mysqli_fetch_assoc($query)) {
 
+            echo "<form method='POST' action='actions.php?upd=1&$get=1'>";
+            echo '<div class="mb-3">';
+
             /*Если не листбокс*/
             if ($query_res['type_name']!='list') {
 
                 /*Выводим форму*/
-                if ($_GET['red'])
-                {
-                    echo "<form method='POST' action='actions.php?upd=1&$get=1'>";
-                    echo '<div class="mb-3">';
-                }
+
+
+
 
 
                 echo '<label for="exampleFormControlInput'.$k.'" class="form-label">'.$query_res['descriptor_n'].'</label>
@@ -420,7 +422,7 @@ function get_form_upd (&$table_name,$get,$id){
         $k++;
         }
 
-
+        echo "<input name='hidden' value='$k' type='hidden'>";
         echo '<button type="submit" class="btn btn-success">Редактировать</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
         echo '<button class="btn btn-danger">Отмена</button>';
 
