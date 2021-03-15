@@ -29,12 +29,9 @@ for ($i=0; $i<$_POST['hidden'];$i++) {
     $post_array[] = ($_POST['name'.$i]);
     echo '</pre>';
 }
-/*Получаем имена полей таблицы базы данных*/
+/*Получаем имена полей таблицы*/
 $columns = get_table_columns($table_name);
-/*Из массива полей таблицы чистим идентификатор*/
-unset($columns[0]);
-/*Из массива полей таблицы чистим статус записи*/
-unset($columns[count($columns)]);
+
 if ($adding) {
 
 
@@ -47,6 +44,9 @@ if ($adding) {
     $records = mysqli_fetch_assoc(get_records_sql($table_name,$condition));
 
 
+    unset($columns[0]);
+    unset($columns[count($columns)]);
+    var_dump($columns);
     $g = 0;
     $i=1;
 
@@ -75,17 +75,8 @@ if ($update) {
     echo '<pre>';
     var_dump($post_array);
     echo '</pre>';
-    $g=0;
-    for ($i=1;$i<(count($post_array));$i++) {
-        $sql = "UPDATE $table_name SET $columns[$i] = $post_array[$g]";
-        if ($update) {
-            echo 'Запрос выполнен успешно';
-        }
-        $upd = $mysqli->query($sql);
-        echo '<pre>';
-        print_r($sql);
-        echo '</pre>';
-        $g++;
-    }
+    for ($i=0;$i<=count($post_array)-1;$i++) {
 
+    }
+    /*    $upd = $mysqli->query("UPDATE $table_name SET ");*/
 }
